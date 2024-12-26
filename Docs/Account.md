@@ -49,3 +49,38 @@ Response:
   "updatedAt": "datetime"
 }
 ```
+
+## Update Current
+
+Request:
+- Method: PUT
+- Endpoint: `/api/account/current`
+- Header:
+  - Authorization: Bearer <token>
+  - Accept: multipart/form-data
+  - Content-Type: multipart/form-data
+
+Form:
+
+- username: string,
+- password: string,
+- passwordConfirmation: string,
+- name: string,
+- staffNumber: string,
+- accessLevel: enum,
+- image: file
+
+Response:
+
+```json
+{
+  "id": "string",
+  "username": "string",
+  "name": "string",
+  "staffNumber": "string",
+  "accessLevel": "enum",
+  "imageUrl": "string",
+  "createdAt": "datetime",
+  "updatedAt": "datetime"
+}
+```
