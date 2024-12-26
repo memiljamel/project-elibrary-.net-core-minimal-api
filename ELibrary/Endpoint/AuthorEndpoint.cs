@@ -21,11 +21,9 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
 
             group.MapPost("/", CreateAuthor)
-                .DisableAntiforgery()
                 .RequireAuthorization("All");
 
             group.MapPut("/{authorId:guid}", UpdateAuthor)
-                .DisableAntiforgery()
                 .RequireAuthorization("All");
 
             group.MapDelete("/{authorId:guid}", DeleteAuthor)

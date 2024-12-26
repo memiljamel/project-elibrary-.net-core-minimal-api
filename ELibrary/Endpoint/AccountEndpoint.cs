@@ -20,32 +20,15 @@ namespace ELibrary.Endpoint
             var group = app.MapGroup("/api/account")
                 .WithTags("Account");
 
+            group.MapPost("/login", Login)
+                .AllowAnonymous();
+
             group.MapGet("/current", GetAccount)
                 .RequireAuthorization("All");
 
-            group.MapPost("/login", Login)
-                .AllowAnonymous();
-        }
-
-        private static async Task<Results<Ok<StaffResponse>, NotFound>> GetAccount(
-            ClaimsPrincipal claimsPrincipal,
-            [FromServices] IUnitOfWork unitOfWork)
-        {
-            var username = claimsPrincipal.Identity?.Name;
-            if (username == null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var staff = await unitOfWork.StaffRepository.GetByUsername(username);
-            if (staff == null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var response = ToStaffResponse(staff);
-
-            return TypedResults.Ok(response);
+            group.MapPut("/current", UpdateAccount)
+                .RequireAuthorization("All")
+                .DisableAntiforgery();
         }
 
         private static async Task<Results<Created<LoginResponse>, ValidationProblem>> Login(
@@ -69,6 +52,7 @@ namespace ELibrary.Endpoint
 
                 var claims = new List<Claim>
                 {
+                    new Claim("Id", staff.Id.ToString()),
                     new Claim(ClaimTypes.Name, staff.Username),
                     new Claim(ClaimTypes.Role, staff.AccessLevel.ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, staff.Username),
@@ -94,6 +78,87 @@ namespace ELibrary.Endpoint
                 {
                     AccessToken = handler.WriteToken(token)
                 });
+            }
+
+            return TypedResults.ValidationProblem(result.ToDictionary());
+        }
+
+        private static async Task<Results<Ok<StaffResponse>, NotFound>> GetAccount(
+            ClaimsPrincipal claimsPrincipal,
+            [FromServices] IUnitOfWork unitOfWork)
+        {
+            var username = claimsPrincipal.Identity?.Name;
+            if (username == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var staff = await unitOfWork.StaffRepository.GetByUsername(username);
+            if (staff == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var response = ToStaffResponse(staff);
+
+            return TypedResults.Ok(response);
+        }
+
+        private static async Task<Results<Ok<StaffResponse>, NotFound, ValidationProblem>> UpdateAccount(
+            ClaimsPrincipal claimsPrincipal,
+            [FromServices] IValidator<UpdateStaffRequest> validator,
+            [FromServices] IUnitOfWork unitOfWork,
+            [FromForm] UpdateStaffRequest request)
+        {
+            var username = claimsPrincipal.Identity?.Name;
+            if (username == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            request.Id = new Guid(claimsPrincipal.FindFirst("Id")!.Value);
+
+            var result = await validator.ValidateAsync(request);
+
+            if (result.IsValid)
+            {
+                var staff = await unitOfWork.StaffRepository.GetByUsername(username);
+                if (staff == null)
+                {
+                    return TypedResults.NotFound();
+                }
+
+                staff.Username = request.Username;
+                staff.Name = request.Name;
+                staff.StaffNumber = request.StaffNumber;
+                staff.AccessLevel = request.AccessLevel;
+                staff.UpdatedAt = DateTime.UtcNow;
+
+                if (request.Password != null)
+                {
+                    staff.Password = BC.HashPassword(request.Password);
+                }
+
+                if (request.Image != null)
+                {
+                    if (staff.ImageUrl != null && File.Exists(Path.Combine("wwwroot", staff.ImageUrl)))
+                    {
+                        File.Delete(Path.Combine("wwwroot", staff.ImageUrl));
+                    }
+
+                    var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+
+                    await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                    await request.Image.CopyToAsync(stream);
+
+                    staff.ImageUrl = filename;
+                }
+
+                await unitOfWork.SaveChangesAsync();
+
+                var response = ToStaffResponse(staff);
+
+                return TypedResults.Ok(response);
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());

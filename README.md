@@ -2,7 +2,7 @@
 
 The ELibrary project is a Restful Api built using .NET Core Minimal API for efficient library management.
 
-![API Specifications](https://drive.usercontent.google.com/download?id=10B8gg6Z54a9O7PwmlM0fpth7Ma2hGi1c)
+![API Specifications](https://drive.usercontent.google.com/download?id=1DWEnetPOtVF-Ehh861F5jgGcnzaB8-vu)
 
 ## Table of Contents
 

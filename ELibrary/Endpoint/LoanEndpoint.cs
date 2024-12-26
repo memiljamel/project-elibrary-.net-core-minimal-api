@@ -21,11 +21,9 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
 
             group.MapPost("/", CreateLoan)
-                .DisableAntiforgery()
                 .RequireAuthorization("All");
 
             group.MapPut("/{loanId:guid}", UpdateLoan)
-                .DisableAntiforgery()
                 .RequireAuthorization("All");
 
             group.MapDelete("/{loanId:guid}", DeleteLoan)
