@@ -1,0 +1,107 @@
+﻿### GET Staffs
+GET https://localhost:7255/api/staffs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Staffs With Filter
+GET https://localhost:7255/api/staffs?name=lorem&page=1&size=50
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Staff By Id
+GET https://localhost:7255/api/staffs/720bc42f-6e13-49a5-bc4a-e0f6d4d53f9e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### POST Staff
+POST https://localhost:7255/api/staffs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="Username"
+
+Username 1
+
+--boundary
+Content-Disposition: form-data; name="Password"
+
+Password
+
+--boundary
+Content-Disposition: form-data; name="PasswordConfirmation"
+
+Password
+
+--boundary
+Content-Disposition: form-data; name="Name"
+
+Name 1
+
+--boundary
+Content-Disposition: form-data; name="StaffNumber"
+
+STF-0001
+
+--boundary
+Content-Disposition: form-data; name="AccessLevel"
+
+1
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### PUT Staff
+PUT https://localhost:7255/api/staffs/720bc42f-6e13-49a5-bc4a-e0f6d4d53f9e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="Username"
+
+Username 1
+
+--boundary
+Content-Disposition: form-data; name="Password"
+
+Password
+
+--boundary
+Content-Disposition: form-data; name="PasswordConfirmation"
+
+Password
+
+--boundary
+Content-Disposition: form-data; name="Name"
+
+Name 1
+
+--boundary
+Content-Disposition: form-data; name="StaffNumber"
+
+STF-0001
+
+--boundary
+Content-Disposition: form-data; name="AccessLevel"
+
+1
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### DELETE Staff
+DELETE https://localhost:7255/api/staffs/720bc42f-6e13-49a5-bc4a-e0f6d4d53f9e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json

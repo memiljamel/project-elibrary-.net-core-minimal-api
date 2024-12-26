@@ -1,0 +1,117 @@
+﻿### GET Members
+GET https://localhost:7255/api/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Members With Filter
+GET https://localhost:7255/api/members?name=lorem&page=1&size=50
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Member By Id
+GET https://localhost:7255/api/members/96e7ec10-db01-4b01-9397-ac8d5bcbdea6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### POST Member
+POST https://localhost:7255/api/members
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="MemberNumber"
+
+MEM-0001
+
+--boundary
+Content-Disposition: form-data; name="Name"
+
+Name 1
+
+--boundary
+Content-Disposition: form-data; name="Address"
+
+Address 1
+
+--boundary
+Content-Disposition: form-data; name="Email"
+
+user@domain.com
+
+--boundary
+Content-Disposition: form-data; name="MemberNumber"
+
+STF-0001
+
+--boundary
+Content-Disposition: form-data; name="Phones[0]"
+
+1234567890
+
+--boundary
+Content-Disposition: form-data; name="Phones[1]"
+
+0987654321
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### PUT Member
+PUT https://localhost:7255/api/members/96e7ec10-db01-4b01-9397-ac8d5bcbdea6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="MemberNumber"
+
+MEM-0001
+
+--boundary
+Content-Disposition: form-data; name="Name"
+
+Name 1
+
+--boundary
+Content-Disposition: form-data; name="Address"
+
+Address 1
+
+--boundary
+Content-Disposition: form-data; name="Email"
+
+user@domain.com
+
+--boundary
+Content-Disposition: form-data; name="MemberNumber"
+
+STF-0001
+
+--boundary
+Content-Disposition: form-data; name="Phones[0]"
+
+1234567890
+
+--boundary
+Content-Disposition: form-data; name="Phones[1]"
+
+0987654321
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### DELETE Member
+DELETE https://localhost:7255/api/members/96e7ec10-db01-4b01-9397-ac8d5bcbdea6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json

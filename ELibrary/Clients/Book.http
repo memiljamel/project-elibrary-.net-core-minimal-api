@@ -1,0 +1,107 @@
+﻿### GET Books
+GET https://localhost:7255/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Books With Filter
+GET https://localhost:7255/api/books?title=lorem&page=1&size=50
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### GET Book By Id
+GET https://localhost:7255/api/books/5e1cfab8-d015-4c0f-897e-89c06571d9a4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
+
+### POST Book
+POST https://localhost:7255/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="Title"
+
+Title 1
+
+--boundary
+Content-Disposition: form-data; name="Category"
+
+1
+
+--boundary
+Content-Disposition: form-data; name="Publisher"
+
+Publisher 1
+
+--boundary
+Content-Disposition: form-data; name="Quantity"
+
+15
+
+--boundary
+Content-Disposition: form-data; name="AuthorIds[0]"
+
+5b49a5e6-f82c-4bcc-9f1e-e82ee4670e92
+
+--boundary
+Content-Disposition: form-data; name="AuthorIds[1]"
+
+87e38b4a-2bdd-47cd-b480-3071ed0949a0
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### PUT Book
+PUT https://localhost:7255/api/books/5e1cfab8-d015-4c0f-897e-89c06571d9a4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: multipart/form-data; boundary=boundary
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="Title"
+
+Title 1
+
+--boundary
+Content-Disposition: form-data; name="Category"
+
+1
+
+--boundary
+Content-Disposition: form-data; name="Publisher"
+
+Publisher 1
+
+--boundary
+Content-Disposition: form-data; name="Quantity"
+
+15
+
+--boundary
+Content-Disposition: form-data; name="AuthorIds[0]"
+
+5b49a5e6-f82c-4bcc-9f1e-e82ee4670e92
+
+--boundary
+Content-Disposition: form-data; name="AuthorIds[1]"
+
+87e38b4a-2bdd-47cd-b480-3071ed0949a0
+
+--boundary
+Content-Disposition: form-data; name="Image"; filename="photo.png"
+Content-Type: image/png
+
+< ./photo.png
+
+--boundary--
+
+### DELETE Book
+DELETE https://localhost:7255/api/books/5e1cfab8-d015-4c0f-897e-89c06571d9a4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5pc3RyYXRvciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluaXN0cmF0b3IiLCJzdWIiOiJhZG1pbmlzdHJhdG9yIiwibmFtZSI6IkFkbWluaXN0cmF0b3IiLCJqdGkiOiIyNjU1Mjc0YS0yODI5LTQwNTMtYTUxNS0wNjE1ZDdhYTZhMjMiLCJleHAiOjE3MzUyMTgyMzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNTUiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjU1In0.ik-BJu9-LM2OObBGiKTw2q5vuOtgyc1QiZr0Pm1BmdI
+Accept: application/json
