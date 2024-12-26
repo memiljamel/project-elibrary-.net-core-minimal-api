@@ -57,6 +57,12 @@ Make sure you have the following installed:
 After completing the installation steps and the server is running, open your browser and navigate
 to [http://localhost:5279](http://localhost:5279).
 
+Use the following credentials to access the application as an administrator:
+- **username:** administrator
+- **password:** password
+
+> **Note:** It is recommended to change the default credentials after the first login for security purposes.
+
 ## Features
 
 - **Authentication:** Provides login functionalities for administrators/staffs.
