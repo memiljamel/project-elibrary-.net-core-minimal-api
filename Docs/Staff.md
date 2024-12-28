@@ -3,24 +3,64 @@
 ## Get Staffs
 
 Request:
+
 - Method: GET
 - Endpoint: `/api/staffs`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: application/json
+    - Authorization: Bearer <token>
+    - Accept: application/json
 - Query:
-  - username: null
-  - name: null
-  - staffNumber: null
-  - accessLevel: null
-  - page: 1
-  - size: 15
+    - username: null
+    - name: null
+    - staffNumber: null
+    - accessLevel: null
+    - page: 1
+    - size: 15
 
 Response:
 
 ```json
-[
-  {
+{
+  "code": "int",
+  "status": "string",
+  "data": [
+    {
+      "id": "string",
+      "username": "string",
+      "name": "string",
+      "staffNumber": "string",
+      "accessLevel": "enum",
+      "imageUrl": "string",
+      "createdAt": "datetime",
+      "updatedAt": "datetime"
+    }
+  ],
+  "meta": {
+    "currentPage": "int",
+    "perPage": "int",
+    "total": "int",
+    "totalPage": "int"
+  }
+}
+```
+
+## Get Staff
+
+Request:
+
+- Method: GET
+- Endpoint: `/api/staffs/{staffId}`
+- Header:
+    - Authorization: Bearer <token>
+    - Accept: application/json
+
+Response:
+
+```json
+{
+  "code": "int",
+  "status": "string",
+  "data": {
     "id": "string",
     "username": "string",
     "name": "string",
@@ -30,42 +70,19 @@ Response:
     "createdAt": "datetime",
     "updatedAt": "datetime"
   }
-]
-```
-
-## Get Staff
-
-Request:
-- Method: GET
-- Endpoint: `/api/staffs/{staffId}`
-- Header:
-  - Authorization: Bearer <token>
-  - Accept: application/json
-
-Response:
-
-```json
-  {
-  "id": "string",
-  "username": "string",
-  "name": "string",
-  "staffNumber": "string",
-  "accessLevel": "enum",
-  "imageUrl": "string",
-  "createdAt": "datetime",
-  "updatedAt": "datetime"
 }
 ```
 
 ## Create Staff
 
 Request:
+
 - Method: POST
 - Endpoint: `/api/staffs`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: multipart/form-data
-  - Content-Type: multipart/form-data
+    - Authorization: Bearer <token>
+    - Accept: multipart/form-data
+    - Content-Type: multipart/form-data
 
 Form:
 
@@ -81,26 +98,31 @@ Response:
 
 ```json
 {
-  "id": "string",
-  "username": "string",
-  "name": "string",
-  "staffNumber": "string",
-  "accessLevel": "enum",
-  "imageUrl": "string",
-  "createdAt": "datetime",
-  "updatedAt": "datetime"
+  "code": "int",
+  "status": "string",
+  "data": {
+    "id": "string",
+    "username": "string",
+    "name": "string",
+    "staffNumber": "string",
+    "accessLevel": "enum",
+    "imageUrl": "string",
+    "createdAt": "datetime",
+    "updatedAt": "datetime"
+  }
 }
 ```
 
 ## Update Staff
 
 Request:
+
 - Method: PUT
 - Endpoint: `/api/staffs/{staffId}`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: multipart/form-data
-  - Content-Type: multipart/form-data
+    - Authorization: Bearer <token>
+    - Accept: multipart/form-data
+    - Content-Type: multipart/form-data
 
 Form:
 
@@ -116,26 +138,37 @@ Response:
 
 ```json
 {
-  "id": "string",
-  "username": "string",
-  "name": "string",
-  "staffNumber": "string",
-  "accessLevel": "enum",
-  "imageUrl": "string",
-  "createdAt": "datetime",
-  "updatedAt": "datetime"
+  "code": "int",
+  "status": "string",
+  "data": {
+    "id": "string",
+    "username": "string",
+    "name": "string",
+    "staffNumber": "string",
+    "accessLevel": "enum",
+    "imageUrl": "string",
+    "createdAt": "datetime",
+    "updatedAt": "datetime"
+  }
 }
 ```
 
 ## Delete Staff
 
 Request:
+
 - Method: DELETE
 - Endpoint: `/api/staffs/{staffId}`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: application/json
+    - Authorization: Bearer <token>
+    - Accept: application/json
 
 Response:
 
-204 (No Content)
+```json
+{
+  "code": "int",
+  "status": "string",
+  "data": null
+}
+```

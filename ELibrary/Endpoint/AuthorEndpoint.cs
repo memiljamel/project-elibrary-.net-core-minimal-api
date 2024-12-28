@@ -30,7 +30,7 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
         }
 
-        private static async Task<Results<Ok<PaginatedList<AuthorResponse>>, NotFound>> GetAuthors(
+        private static async Task<Results<Ok<WebResponse<PaginatedList<AuthorResponse>>>, NotFound>> GetAuthors(
             [FromServices] IUnitOfWork unitOfWork,
             [FromQuery] string? name,
             [FromQuery] string? email,
@@ -58,14 +58,26 @@ namespace ELibrary.Endpoint
             var response = authors.Select(a => ToAuthorResponse(a))
                 .ToList();
 
-            return TypedResults.Ok(new PaginatedList<AuthorResponse>(
-                response,
-                authors.TotalCount,
-                authors.PageIndex,
-                pageSize));
+            return TypedResults.Ok(new WebResponse<PaginatedList<AuthorResponse>>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = new PaginatedList<AuthorResponse>(
+                    response,
+                    authors.TotalCount,
+                    authors.PageIndex,
+                    pageSize),
+                Meta = new MetaResponse
+                {
+                    CurrentPage = authors.PageIndex,
+                    PerPage = authors.PageSize,
+                    Total = authors.TotalCount,
+                    TotalPage = authors.TotalPages
+                }
+            });
         }
 
-        private static async Task<Results<Ok<AuthorResponse>, NotFound>> GetAuthor(
+        private static async Task<Results<Ok<WebResponse<AuthorResponse>>, NotFound>> GetAuthor(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid authorId)
         {
@@ -77,10 +89,15 @@ namespace ELibrary.Endpoint
 
             var response = ToAuthorResponse(author);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<AuthorResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Created<AuthorResponse>, ValidationProblem>> CreateAuthor(
+        private static async Task<Results<Created<WebResponse<AuthorResponse>>, ValidationProblem>> CreateAuthor(
             [FromServices] IValidator<CreateAuthorRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromBody] CreateAuthorRequest request)
@@ -100,13 +117,18 @@ namespace ELibrary.Endpoint
 
                 var response = ToAuthorResponse(author);
 
-                return TypedResults.Created($"/api/authors/{author.Id}", response);
+                return TypedResults.Created($"/api/authors/{author.Id}", new WebResponse<AuthorResponse>
+                {
+                    Code = 201,
+                    Status = "Created",
+                    Data = response
+                });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<AuthorResponse>, NotFound, ValidationProblem>> UpdateAuthor(
+        private static async Task<Results<Ok<WebResponse<AuthorResponse>>, NotFound, ValidationProblem>> UpdateAuthor(
             [FromServices] IValidator<UpdateAuthorRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid authorId,
@@ -132,13 +154,18 @@ namespace ELibrary.Endpoint
 
                 var response = ToAuthorResponse(author);
 
-                return TypedResults.Ok(response);
+                return TypedResults.Ok(new WebResponse<AuthorResponse>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = response
+                });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<NoContent, NotFound>> DeleteAuthor(
+        private static async Task<Results<Ok<WebResponse<object>>, NotFound>> DeleteAuthor(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid authorId)
         {
@@ -152,7 +179,12 @@ namespace ELibrary.Endpoint
 
             await unitOfWork.SaveChangesAsync();
 
-            return TypedResults.NoContent();
+            return TypedResults.Ok(new WebResponse<object>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = null
+            });
         }
 
         private static AuthorResponse ToAuthorResponse(Author author)

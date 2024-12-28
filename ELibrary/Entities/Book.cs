@@ -26,7 +26,6 @@ namespace ELibrary.Entities
         public int Quantity { get; set; }
         
         [Column(Order = 5)]
-        [MaxLength(255)]
         public string? ImageUrl { get; set; }
 
         public ICollection<Loan> Loans { get; set; }

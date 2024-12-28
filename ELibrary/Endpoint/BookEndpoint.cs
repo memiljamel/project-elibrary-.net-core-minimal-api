@@ -33,7 +33,7 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
         }
 
-        private static async Task<Results<Ok<PaginatedList<BookResponse>>, NotFound>> GetBooks(
+        private static async Task<Results<Ok<WebResponse<PaginatedList<BookResponse>>>, NotFound>> GetBooks(
             [FromServices] IUnitOfWork unitOfWork,
             [FromQuery] string? title,
             [FromQuery] CategoryEnum? category,
@@ -65,14 +65,26 @@ namespace ELibrary.Endpoint
             var response = books.Select(b => ToBookResponse(b))
                 .ToList();
 
-            return TypedResults.Ok(new PaginatedList<BookResponse>(
-                response,
-                books.TotalCount,
-                books.PageIndex,
-                pageSize));
+            return TypedResults.Ok(new WebResponse<PaginatedList<BookResponse>>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = new PaginatedList<BookResponse>(
+                    response,
+                    books.TotalCount,
+                    books.PageIndex,
+                    pageSize),
+                Meta = new MetaResponse
+                {
+                    CurrentPage = books.PageIndex,
+                    PerPage = books.PageSize,
+                    Total = books.TotalCount,
+                    TotalPage = books.TotalPages
+                }
+            });
         }
 
-        private static async Task<Results<Ok<BookResponse>, NotFound>> GetBook(
+        private static async Task<Results<Ok<WebResponse<BookResponse>>, NotFound>> GetBook(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid bookId)
         {
@@ -84,10 +96,15 @@ namespace ELibrary.Endpoint
 
             var response = ToBookResponse(book);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<BookResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Created<BookResponse>, ValidationProblem>> CreateBook(
+        private static async Task<Results<Created<WebResponse<BookResponse>>, ValidationProblem>> CreateBook(
             [FromServices] IValidator<CreateBookRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromForm] CreateBookRequest request)
@@ -138,7 +155,12 @@ namespace ELibrary.Endpoint
 
                     var response = ToBookResponse(book);
 
-                    return TypedResults.Created($"/api/books/{book.Id}", response);
+                    return TypedResults.Created($"/api/books/{book.Id}", new WebResponse<BookResponse>
+                    {
+                        Code = 201,
+                        Status = "Created",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
@@ -151,7 +173,7 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<BookResponse>, NotFound, ValidationProblem>> UpdateBook(
+        private static async Task<Results<Ok<WebResponse<BookResponse>>, NotFound, ValidationProblem>> UpdateBook(
             [FromServices] IValidator<UpdateBookRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid bookId,
@@ -216,7 +238,12 @@ namespace ELibrary.Endpoint
 
                     var response = ToBookResponse(book);
 
-                    return TypedResults.Ok(response);
+                    return TypedResults.Ok(new WebResponse<BookResponse>
+                    {
+                        Code = 200,
+                        Status = "Ok",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
@@ -229,20 +256,20 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<NoContent, NotFound>> DeleteBook(
+        private static async Task<Results<Ok<WebResponse<object>>, NotFound>> DeleteBook(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid bookId)
         {
             try
             {
                 await unitOfWork.BeginTransactionAsync();
-                
+
                 var book = await unitOfWork.BookRepository.GetById(bookId);
                 if (book == null)
                 {
                     return TypedResults.NotFound();
                 }
-                
+
                 unitOfWork.BookAuthorRepository.RemoveRange(book.BooksAuthors);
 
                 await unitOfWork.SaveChangesAsync();
@@ -251,18 +278,23 @@ namespace ELibrary.Endpoint
                 {
                     File.Delete(Path.Combine("wwwroot", book.ImageUrl));
                 }
-                
+
                 unitOfWork.BookRepository.Remove(book);
 
                 await unitOfWork.SaveChangesAsync();
                 await unitOfWork.CommitAsync();
 
-                return TypedResults.NoContent();
+                return TypedResults.Ok(new WebResponse<object>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = null
+                });
             }
             catch (Exception e)
             {
                 await unitOfWork.RollbackAsync();
-                
+
                 throw new Exception(e.Message);
             }
         }

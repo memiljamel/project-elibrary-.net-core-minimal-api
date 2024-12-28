@@ -32,7 +32,7 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
         }
 
-        private static async Task<Results<Ok<PaginatedList<MemberResponse>>, NotFound>> GetMembers(
+        private static async Task<Results<Ok<WebResponse<PaginatedList<MemberResponse>>>, NotFound>> GetMembers(
             [FromServices] IUnitOfWork unitOfWork,
             [FromQuery] string? memberNumber,
             [FromQuery] string? name,
@@ -64,14 +64,26 @@ namespace ELibrary.Endpoint
             var response = members.Select(m => ToMemberResponse(m))
                 .ToList();
 
-            return TypedResults.Ok(new PaginatedList<MemberResponse>(
-                response,
-                members.TotalCount,
-                members.PageIndex,
-                pageSize));
+            return TypedResults.Ok(new WebResponse<PaginatedList<MemberResponse>>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = new PaginatedList<MemberResponse>(
+                    response,
+                    members.TotalCount,
+                    members.PageIndex,
+                    pageSize),
+                Meta = new MetaResponse
+                {
+                    CurrentPage = members.PageIndex,
+                    PerPage = members.PageSize,
+                    Total = members.TotalCount,
+                    TotalPage = members.TotalPages
+                }
+            });
         }
 
-        private static async Task<Results<Ok<MemberResponse>, NotFound>> GetMember(
+        private static async Task<Results<Ok<WebResponse<MemberResponse>>, NotFound>> GetMember(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid memberId)
         {
@@ -83,10 +95,15 @@ namespace ELibrary.Endpoint
 
             var response = ToMemberResponse(member);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<MemberResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Created<MemberResponse>, ValidationProblem>> CreateMember(
+        private static async Task<Results<Created<WebResponse<MemberResponse>>, ValidationProblem>> CreateMember(
             [FromServices] IValidator<CreateMemberRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromForm] CreateMemberRequest request)
@@ -96,7 +113,7 @@ namespace ELibrary.Endpoint
             if (result.IsValid)
             {
                 await unitOfWork.BeginTransactionAsync();
-                
+
                 try
                 {
                     var member = new Member
@@ -129,7 +146,7 @@ namespace ELibrary.Endpoint
                             MemberId = member.Id
                         };
                         unitOfWork.PhoneRepository.Add(phone);
-                        
+
                         await unitOfWork.SaveChangesAsync();
                     }
 
@@ -137,12 +154,17 @@ namespace ELibrary.Endpoint
 
                     var response = ToMemberResponse(member);
 
-                    return TypedResults.Created($"/api/members/{member.Id}", response);
+                    return TypedResults.Created($"/api/members/{member.Id}", new WebResponse<MemberResponse>
+                    {
+                        Code = 201,
+                        Status = "Created",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
                     await unitOfWork.RollbackAsync();
-                    
+
                     throw new Exception(e.Message);
                 }
             }
@@ -150,7 +172,7 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<MemberResponse>, NotFound, ValidationProblem>> UpdateMember(
+        private static async Task<Results<Ok<WebResponse<MemberResponse>>, NotFound, ValidationProblem>> UpdateMember(
             [FromServices] IValidator<UpdateMemberRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid memberId,
@@ -163,7 +185,7 @@ namespace ELibrary.Endpoint
             if (result.IsValid)
             {
                 await unitOfWork.BeginTransactionAsync();
-                
+
                 try
                 {
                     var member = await unitOfWork.MemberRepository.GetById(request.Id);
@@ -207,7 +229,7 @@ namespace ELibrary.Endpoint
                             MemberId = member.Id
                         };
                         unitOfWork.PhoneRepository.Add(phone);
-                        
+
                         await unitOfWork.SaveChangesAsync();
                     }
 
@@ -215,12 +237,17 @@ namespace ELibrary.Endpoint
 
                     var response = ToMemberResponse(member);
 
-                    return TypedResults.Ok(response);
+                    return TypedResults.Ok(new WebResponse<MemberResponse>
+                    {
+                        Code = 200,
+                        Status = "Ok",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
                     await unitOfWork.RollbackAsync();
-                    
+
                     throw new Exception(e.Message);
                 }
             }
@@ -228,12 +255,12 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<NoContent, NotFound>> DeleteMember(
+        private static async Task<Results<Ok<WebResponse<object>>, NotFound>> DeleteMember(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid memberId)
         {
             await unitOfWork.BeginTransactionAsync();
-            
+
             try
             {
                 var member = await unitOfWork.MemberRepository.GetById(memberId);
@@ -245,23 +272,28 @@ namespace ELibrary.Endpoint
                 unitOfWork.PhoneRepository.RemoveRange(member.Phones);
 
                 await unitOfWork.SaveChangesAsync();
-            
+
                 if (member.ImageUrl != null && File.Exists(Path.Combine("wwwroot", member.ImageUrl)))
                 {
                     File.Delete(Path.Combine("wwwroot", member.ImageUrl));
                 }
-            
+
                 unitOfWork.MemberRepository.Remove(member);
 
                 await unitOfWork.SaveChangesAsync();
                 await unitOfWork.CommitAsync();
 
-                return TypedResults.NoContent();
+                return TypedResults.Ok(new WebResponse<object>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = null
+                });
             }
             catch (Exception e)
             {
                 await unitOfWork.RollbackAsync();
-                
+
                 throw new Exception(e.Message);
             }
         }

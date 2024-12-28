@@ -15,7 +15,6 @@ namespace ELibrary.Entities
         public string Username { get; set; }
 
         [Required]
-        [MaxLength(256)]
         [Column(Order = 2)]
         public string Password { get; set; }
 
@@ -34,7 +33,6 @@ namespace ELibrary.Entities
         public AccessLevelEnum AccessLevel { get; set; }
         
         [Column(Order = 6)]
-        [MaxLength(255)]
         public string? ImageUrl { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("All");
         }
 
-        private static async Task<Results<Ok<PaginatedList<LoanResponse>>, NotFound>> GetLoans(
+        private static async Task<Results<Ok<WebResponse<PaginatedList<LoanResponse>>>, NotFound>> GetLoans(
             [FromServices] IUnitOfWork unitOfWork,
             [FromQuery] DateOnly? loanDate,
             [FromQuery] DateOnly? returnDate,
@@ -62,14 +62,26 @@ namespace ELibrary.Endpoint
             var response = loans.Select(a => ToLoanResponse(a))
                 .ToList();
 
-            return TypedResults.Ok(new PaginatedList<LoanResponse>(
-                response,
-                loans.TotalCount,
-                loans.PageIndex,
-                pageSize));
+            return TypedResults.Ok(new WebResponse<PaginatedList<LoanResponse>>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = new PaginatedList<LoanResponse>(
+                    response,
+                    loans.TotalCount,
+                    loans.PageIndex,
+                    pageSize),
+                Meta = new MetaResponse
+                {
+                    CurrentPage = loans.PageIndex,
+                    PerPage = loans.PageSize,
+                    Total = loans.TotalCount,
+                    TotalPage = loans.TotalPages
+                }
+            });
         }
 
-        private static async Task<Results<Ok<LoanResponse>, NotFound>> GetLoan(
+        private static async Task<Results<Ok<WebResponse<LoanResponse>>, NotFound>> GetLoan(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid loanId)
         {
@@ -81,10 +93,15 @@ namespace ELibrary.Endpoint
 
             var response = ToLoanResponse(loan);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<LoanResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Created<LoanResponse>, ValidationProblem>> CreateLoan(
+        private static async Task<Results<Created<WebResponse<LoanResponse>>, ValidationProblem>> CreateLoan(
             [FromServices] IValidator<CreateLoanRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromBody] CreateLoanRequest request)
@@ -94,7 +111,7 @@ namespace ELibrary.Endpoint
             if (result.IsValid)
             {
                 await unitOfWork.BeginTransactionAsync();
-                
+
                 try
                 {
                     var loan = new Loan
@@ -106,7 +123,7 @@ namespace ELibrary.Endpoint
                     unitOfWork.LoanRepository.Add(loan);
 
                     await unitOfWork.SaveChangesAsync();
-                    
+
                     var book = await unitOfWork.BookRepository.GetById(request.BookId);
                     if (book != null)
                     {
@@ -118,12 +135,17 @@ namespace ELibrary.Endpoint
 
                     var response = ToLoanResponse(loan);
 
-                    return TypedResults.Created($"/api/loans/{loan.Id}", response);
+                    return TypedResults.Created($"/api/loans/{loan.Id}", new WebResponse<LoanResponse>
+                    {
+                        Code = 201,
+                        Status = "Created",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
                     await unitOfWork.RollbackAsync();
-                    
+
                     throw new Exception(e.Message);
                 }
             }
@@ -131,7 +153,7 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<LoanResponse>, NotFound, ValidationProblem>> UpdateLoan(
+        private static async Task<Results<Ok<WebResponse<LoanResponse>>, NotFound, ValidationProblem>> UpdateLoan(
             [FromServices] IValidator<UpdateLoanRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid loanId,
@@ -144,7 +166,7 @@ namespace ELibrary.Endpoint
             if (result.IsValid)
             {
                 await unitOfWork.BeginTransactionAsync();
-                
+
                 try
                 {
                     var loan = await unitOfWork.LoanRepository.GetById(request.Id);
@@ -168,12 +190,17 @@ namespace ELibrary.Endpoint
 
                     var response = ToLoanResponse(loan);
 
-                    return TypedResults.Ok(response);
+                    return TypedResults.Ok(new WebResponse<LoanResponse>
+                    {
+                        Code = 200,
+                        Status = "Ok",
+                        Data = response
+                    });
                 }
                 catch (Exception e)
                 {
                     await unitOfWork.RollbackAsync();
-                    
+
                     throw new Exception(e.Message);
                 }
             }
@@ -181,12 +208,12 @@ namespace ELibrary.Endpoint
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<NoContent, NotFound>> DeleteLoan(
+        private static async Task<Results<Ok<WebResponse<object>>, NotFound>> DeleteLoan(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid loanId)
         {
             await unitOfWork.BeginTransactionAsync();
-            
+
             try
             {
                 var loan = await unitOfWork.LoanRepository.GetById(loanId);
@@ -205,7 +232,12 @@ namespace ELibrary.Endpoint
                 await unitOfWork.SaveChangesAsync();
                 await unitOfWork.CommitAsync();
 
-                return TypedResults.NoContent();
+                return TypedResults.Ok(new WebResponse<object>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = null
+                });
             }
             catch (Exception e)
             {

@@ -31,7 +31,7 @@ namespace ELibrary.Endpoint
                 .DisableAntiforgery();
         }
 
-        private static async Task<Results<Created<LoginResponse>, ValidationProblem>> Login(
+        private static async Task<Results<Created<WebResponse<LoginResponse>>, ValidationProblem>> Login(
             [FromServices] IValidator<LoginRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IConfiguration configuration,
@@ -74,16 +74,21 @@ namespace ELibrary.Endpoint
 
                 var handler = new JwtSecurityTokenHandler();
 
-                return TypedResults.Created(string.Empty, new LoginResponse
+                return TypedResults.Created(string.Empty, new WebResponse<LoginResponse>
                 {
-                    AccessToken = handler.WriteToken(token)
+                    Code = 200,
+                    Status = "Ok",
+                    Data = new LoginResponse
+                    {
+                        AccessToken = handler.WriteToken(token)
+                    }
                 });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<StaffResponse>, NotFound>> GetAccount(
+        private static async Task<Results<Ok<WebResponse<StaffResponse>>, NotFound>> GetAccount(
             ClaimsPrincipal claimsPrincipal,
             [FromServices] IUnitOfWork unitOfWork)
         {
@@ -101,10 +106,15 @@ namespace ELibrary.Endpoint
 
             var response = ToStaffResponse(staff);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<StaffResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Ok<StaffResponse>, NotFound, ValidationProblem>> UpdateAccount(
+        private static async Task<Results<Ok<WebResponse<StaffResponse>>, NotFound, ValidationProblem>> UpdateAccount(
             ClaimsPrincipal claimsPrincipal,
             [FromServices] IValidator<UpdateStaffRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
@@ -158,7 +168,12 @@ namespace ELibrary.Endpoint
 
                 var response = ToStaffResponse(staff);
 
-                return TypedResults.Ok(response);
+                return TypedResults.Ok(new WebResponse<StaffResponse>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = response
+                });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());

@@ -3,11 +3,12 @@
 ## Login
 
 Request:
+
 - Method: POST
 - Endpoint: `/api/account/login`
 - Header:
-  - Accept: application/json
-  - Content-Type: application/json
+    - Accept: application/json
+    - Content-Type: application/json
 
 Body:
 
@@ -22,43 +23,53 @@ Response:
 
 ```json
 {
-  "accessToken": "string"
+  "code": "int",
+  "status": "string",
+  "data": {
+    "accessToken": "string"
+  }
 }
 ```
 
 ## Get Account
 
 Request:
+
 - Method: GET
 - Endpoint: `/api/account/current`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: application/json
+    - Authorization: Bearer <token>
+    - Accept: application/json
 
 Response:
 
 ```json
 {
-  "id": "string",
-  "username": "string",
-  "name": "string",
-  "staffNumber": "string",
-  "accessLevel": "enum",
-  "imageUrl": "string",
-  "createdAt": "datetime",
-  "updatedAt": "datetime"
+  "code": "int",
+  "status": "string",
+  "data": {
+    "id": "string",
+    "username": "string",
+    "name": "string",
+    "staffNumber": "string",
+    "accessLevel": "enum",
+    "imageUrl": "string",
+    "createdAt": "datetime",
+    "updatedAt": "datetime"
+  }
 }
 ```
 
 ## Update Current
 
 Request:
+
 - Method: PUT
 - Endpoint: `/api/account/current`
 - Header:
-  - Authorization: Bearer <token>
-  - Accept: multipart/form-data
-  - Content-Type: multipart/form-data
+    - Authorization: Bearer <token>
+    - Accept: multipart/form-data
+    - Content-Type: multipart/form-data
 
 Form:
 
@@ -74,13 +85,17 @@ Response:
 
 ```json
 {
-  "id": "string",
-  "username": "string",
-  "name": "string",
-  "staffNumber": "string",
-  "accessLevel": "enum",
-  "imageUrl": "string",
-  "createdAt": "datetime",
-  "updatedAt": "datetime"
+  "code": "int",
+  "status": "string",
+  "data": {
+    "id": "string",
+    "username": "string",
+    "name": "string",
+    "staffNumber": "string",
+    "accessLevel": "enum",
+    "imageUrl": "string",
+    "createdAt": "datetime",
+    "updatedAt": "datetime"
+  }
 }
 ```

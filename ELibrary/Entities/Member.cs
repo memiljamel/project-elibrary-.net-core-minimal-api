@@ -29,7 +29,6 @@ namespace ELibrary.Entities
         public string Email { get; set; }
         
         [Column(Order = 5)]
-        [MaxLength(255)]
         public string? ImageUrl { get; set; }
 
         public ICollection<Phone> Phones { get; set; }

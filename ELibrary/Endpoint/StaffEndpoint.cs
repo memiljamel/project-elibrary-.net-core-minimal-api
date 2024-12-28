@@ -34,7 +34,7 @@ namespace ELibrary.Endpoint
                 .RequireAuthorization("AdministratorOnly");
         }
 
-        private static async Task<Results<Ok<PaginatedList<StaffResponse>>, NotFound>> GetStaffs(
+        private static async Task<Results<Ok<WebResponse<PaginatedList<StaffResponse>>>, NotFound>> GetStaffs(
             [FromServices] IUnitOfWork unitOfWork,
             [FromQuery] string? username,
             [FromQuery] string? name,
@@ -64,14 +64,26 @@ namespace ELibrary.Endpoint
             var response = staffs.Select(s => ToStaffResponse(s))
                 .ToList();
 
-            return TypedResults.Ok(new PaginatedList<StaffResponse>(
-                response,
-                staffs.TotalCount,
-                staffs.PageIndex,
-                pageSize));
+            return TypedResults.Ok(new WebResponse<PaginatedList<StaffResponse>>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = new PaginatedList<StaffResponse>(
+                    response,
+                    staffs.TotalCount,
+                    staffs.PageIndex,
+                    pageSize),
+                Meta = new MetaResponse
+                {
+                    CurrentPage = staffs.PageIndex,
+                    PerPage = staffs.PageSize,
+                    Total = staffs.TotalCount,
+                    TotalPage = staffs.TotalPages
+                }
+            });
         }
 
-        private static async Task<Results<Ok<StaffResponse>, NotFound>> GetStaff(
+        private static async Task<Results<Ok<WebResponse<StaffResponse>>, NotFound>> GetStaff(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid staffId)
         {
@@ -83,10 +95,15 @@ namespace ELibrary.Endpoint
 
             var response = ToStaffResponse(staff);
 
-            return TypedResults.Ok(response);
+            return TypedResults.Ok(new WebResponse<StaffResponse>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = response
+            });
         }
 
-        private static async Task<Results<Created<StaffResponse>, ValidationProblem>> CreateStaff(
+        private static async Task<Results<Created<WebResponse<StaffResponse>>, ValidationProblem>> CreateStaff(
             [FromServices] IValidator<CreateStaffRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromForm] CreateStaffRequest request)
@@ -120,13 +137,18 @@ namespace ELibrary.Endpoint
 
                 var response = ToStaffResponse(staff);
 
-                return TypedResults.Created($"/api/staffs/{staff.Id}", response);
+                return TypedResults.Created($"/api/staffs/{staff.Id}", new WebResponse<StaffResponse>
+                {
+                    Code = 201,
+                    Status = "Created",
+                    Data = response
+                });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<Ok<StaffResponse>, NotFound, ValidationProblem>> UpdateStaff(
+        private static async Task<Results<Ok<WebResponse<StaffResponse>>, NotFound, ValidationProblem>> UpdateStaff(
             [FromServices] IValidator<UpdateStaffRequest> validator,
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid staffId,
@@ -149,7 +171,7 @@ namespace ELibrary.Endpoint
                 staff.StaffNumber = request.StaffNumber;
                 staff.AccessLevel = request.AccessLevel;
                 staff.UpdatedAt = DateTime.UtcNow;
-                
+
                 if (request.Password != null)
                 {
                     staff.Password = BC.HashPassword(request.Password);
@@ -174,13 +196,18 @@ namespace ELibrary.Endpoint
 
                 var response = ToStaffResponse(staff);
 
-                return TypedResults.Ok(response);
+                return TypedResults.Ok(new WebResponse<StaffResponse>
+                {
+                    Code = 200,
+                    Status = "Ok",
+                    Data = response
+                });
             }
 
             return TypedResults.ValidationProblem(result.ToDictionary());
         }
 
-        private static async Task<Results<NoContent, NotFound>> DeleteStaff(
+        private static async Task<Results<Ok<WebResponse<object>>, NotFound>> DeleteStaff(
             [FromServices] IUnitOfWork unitOfWork,
             [FromRoute] Guid staffId)
         {
@@ -199,7 +226,12 @@ namespace ELibrary.Endpoint
 
             await unitOfWork.SaveChangesAsync();
 
-            return TypedResults.NoContent();
+            return TypedResults.Ok(new WebResponse<object>
+            {
+                Code = 200,
+                Status = "Ok",
+                Data = null
+            });
         }
 
         private static StaffResponse ToStaffResponse(Staff staff)
