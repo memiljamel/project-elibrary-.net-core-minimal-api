@@ -40,6 +40,7 @@ namespace ELibrary.Validators
 
             RuleFor(x => x.AuthorIds)
                 .NotEmpty()
+                .Must(IsAuthorIdsUnique)
                 .ForEach(authorId =>
                 {
                     authorId.NotEqual(Guid.Empty)
@@ -52,6 +53,11 @@ namespace ELibrary.Validators
                 .SetValidator(new ImageValidator())
                 .OverridePropertyName("image")
                 .WithName("Image");
+        }
+        
+        private bool IsAuthorIdsUnique(List<Guid> ids)
+        {
+            return ids.Distinct().Count() == ids.Count();
         }
 
         private bool IsAuthorExists(Guid id)

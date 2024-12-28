@@ -14,7 +14,7 @@ namespace ELibrary.Validators
 
             RuleFor(x => x.LoanDate)
                 .NotEmpty()
-                .Equal(DateOnly.FromDateTime(DateTime.Today))
+                .Equal(DateOnly.FromDateTime(DateTime.UtcNow))
                 .OverridePropertyName("loanDate")
                 .WithName("Loan Date");
 

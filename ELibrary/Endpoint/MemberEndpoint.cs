@@ -67,7 +67,7 @@ namespace ELibrary.Endpoint
             return TypedResults.Ok(new WebResponse<PaginatedList<MemberResponse>>
             {
                 Code = 200,
-                Status = "Ok",
+                Status = "OK",
                 Data = new PaginatedList<MemberResponse>(
                     response,
                     members.TotalCount,
@@ -98,7 +98,7 @@ namespace ELibrary.Endpoint
             return TypedResults.Ok(new WebResponse<MemberResponse>
             {
                 Code = 200,
-                Status = "Ok",
+                Status = "OK",
                 Data = response
             });
         }
@@ -240,7 +240,7 @@ namespace ELibrary.Endpoint
                     return TypedResults.Ok(new WebResponse<MemberResponse>
                     {
                         Code = 200,
-                        Status = "Ok",
+                        Status = "OK",
                         Data = response
                     });
                 }
@@ -286,7 +286,7 @@ namespace ELibrary.Endpoint
                 return TypedResults.Ok(new WebResponse<object>
                 {
                     Code = 200,
-                    Status = "Ok",
+                    Status = "OK",
                     Data = null
                 });
             }

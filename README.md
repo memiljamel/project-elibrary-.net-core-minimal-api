@@ -20,7 +20,7 @@ The ELibrary project is a Restful Api built using .NET Core Minimal API for effi
 Make sure you have the following installed:
 
 - [.NET Core SDK](https://dotnet.microsoft.com/en-us/download) (v8 or higher)
-- [MySQL](https://mysql.com)
+- [PostgreSQL](https://www.postgresql.org)
 
 ### Steps to install
 

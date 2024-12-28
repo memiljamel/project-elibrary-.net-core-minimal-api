@@ -13,7 +13,7 @@ namespace ELibrary.Validators
             _unitOfWork = unitOfWork;
 
             RuleFor(x => x.ReturnDate)
-                .Equal(DateOnly.FromDateTime(DateTime.Today))
+                .Equal(DateOnly.FromDateTime(DateTime.UtcNow))
                 .OverridePropertyName("returnDate")
                 .WithName("Return Date");
 

@@ -76,8 +76,8 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Created(string.Empty, new WebResponse<LoginResponse>
                 {
-                    Code = 200,
-                    Status = "Ok",
+                    Code = 201,
+                    Status = "Created",
                     Data = new LoginResponse
                     {
                         AccessToken = handler.WriteToken(token)
@@ -109,7 +109,7 @@ namespace ELibrary.Endpoint
             return TypedResults.Ok(new WebResponse<StaffResponse>
             {
                 Code = 200,
-                Status = "Ok",
+                Status = "OK",
                 Data = response
             });
         }
@@ -171,7 +171,7 @@ namespace ELibrary.Endpoint
                 return TypedResults.Ok(new WebResponse<StaffResponse>
                 {
                     Code = 200,
-                    Status = "Ok",
+                    Status = "OK",
                     Data = response
                 });
             }
