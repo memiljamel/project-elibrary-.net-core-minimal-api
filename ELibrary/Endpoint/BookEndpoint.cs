@@ -128,11 +128,12 @@ namespace ELibrary.Endpoint
                     if (request.Image != null)
                     {
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                        var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                        await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                        await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
 
-                        book.ImageUrl = filename;
+                        book.ImageUrl = filepath;
                     }
 
                     unitOfWork.BookRepository.Add(book);
@@ -207,17 +208,18 @@ namespace ELibrary.Endpoint
 
                     if (request.Image != null)
                     {
-                        if (book.ImageUrl != null && File.Exists(Path.Combine("wwwroot", book.ImageUrl)))
+                        if (book.ImageUrl != null && File.Exists(book.ImageUrl))
                         {
-                            File.Delete(Path.Combine("wwwroot", book.ImageUrl));
+                            File.Delete(book.ImageUrl);
                         }
 
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                        var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                        await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                        await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
 
-                        book.ImageUrl = filename;
+                        book.ImageUrl = filepath;
                     }
 
                     await unitOfWork.SaveChangesAsync();
@@ -274,9 +276,9 @@ namespace ELibrary.Endpoint
 
                 await unitOfWork.SaveChangesAsync();
 
-                if (book.ImageUrl != null && File.Exists(Path.Combine("wwwroot", book.ImageUrl)))
+                if (book.ImageUrl != null && File.Exists(book.ImageUrl))
                 {
-                    File.Delete(Path.Combine("wwwroot", book.ImageUrl));
+                    File.Delete(book.ImageUrl);
                 }
 
                 unitOfWork.BookRepository.Remove(book);

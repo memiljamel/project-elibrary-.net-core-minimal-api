@@ -127,11 +127,12 @@ namespace ELibrary.Endpoint
                     if (request.Image != null)
                     {
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                        var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                        await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                        await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
 
-                        member.ImageUrl = filename;
+                        member.ImageUrl = filepath;
                     }
 
                     unitOfWork.MemberRepository.Add(member);
@@ -206,17 +207,18 @@ namespace ELibrary.Endpoint
 
                     if (request.Image != null)
                     {
-                        if (member.ImageUrl != null && File.Exists(Path.Combine("wwwroot", member.ImageUrl)))
+                        if (member.ImageUrl != null && File.Exists(member.ImageUrl))
                         {
-                            File.Delete(Path.Combine("wwwroot", member.ImageUrl));
+                            File.Delete(member.ImageUrl);
                         }
 
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                        var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                        await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                        await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
 
-                        member.ImageUrl = filename;
+                        member.ImageUrl = filepath;
                     }
 
                     await unitOfWork.SaveChangesAsync();
@@ -273,9 +275,9 @@ namespace ELibrary.Endpoint
 
                 await unitOfWork.SaveChangesAsync();
 
-                if (member.ImageUrl != null && File.Exists(Path.Combine("wwwroot", member.ImageUrl)))
+                if (member.ImageUrl != null && File.Exists(member.ImageUrl))
                 {
-                    File.Delete(Path.Combine("wwwroot", member.ImageUrl));
+                    File.Delete(member.ImageUrl);
                 }
 
                 unitOfWork.MemberRepository.Remove(member);

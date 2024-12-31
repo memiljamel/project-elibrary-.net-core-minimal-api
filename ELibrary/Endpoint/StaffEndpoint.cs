@@ -124,11 +124,12 @@ namespace ELibrary.Endpoint
                 if (request.Image != null)
                 {
                     var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                    var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                    await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                    await using var stream = new FileStream(filepath, FileMode.Create);
                     await request.Image.CopyToAsync(stream);
 
-                    staff.ImageUrl = filename;
+                    staff.ImageUrl = filepath;
                 }
 
                 unitOfWork.StaffRepository.Add(staff);
@@ -179,17 +180,18 @@ namespace ELibrary.Endpoint
 
                 if (request.Image != null)
                 {
-                    if (staff.ImageUrl != null && File.Exists(Path.Combine("wwwroot", staff.ImageUrl)))
+                    if (staff.ImageUrl != null && File.Exists(staff.ImageUrl))
                     {
-                        File.Delete(Path.Combine("wwwroot", staff.ImageUrl));
+                        File.Delete(staff.ImageUrl);
                     }
 
                     var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
+                    var filepath = Path.Combine($"Uploads/Images/{filename}");
 
-                    await using var stream = new FileStream(Path.Combine("wwwroot", filename), FileMode.Create);
+                    await using var stream = new FileStream(filepath, FileMode.Create);
                     await request.Image.CopyToAsync(stream);
 
-                    staff.ImageUrl = filename;
+                    staff.ImageUrl = filepath;
                 }
 
                 await unitOfWork.SaveChangesAsync();
@@ -217,9 +219,9 @@ namespace ELibrary.Endpoint
                 return TypedResults.NotFound();
             }
 
-            if (staff.ImageUrl != null && File.Exists(Path.Combine("wwwroot", staff.ImageUrl)))
+            if (staff.ImageUrl != null && File.Exists(staff.ImageUrl))
             {
-                File.Delete(Path.Combine("wwwroot", staff.ImageUrl));
+                File.Delete(staff.ImageUrl);
             }
 
             unitOfWork.StaffRepository.Remove(staff);
