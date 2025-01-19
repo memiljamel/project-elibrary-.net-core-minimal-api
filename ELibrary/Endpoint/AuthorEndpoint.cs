@@ -1,4 +1,5 @@
-﻿using ELibrary.Entities;
+﻿using System.Net;
+using ELibrary.Entities;
 using ELibrary.Models;
 using ELibrary.Repositories;
 using FluentValidation;
@@ -60,7 +61,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<PaginatedList<AuthorResponse>>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = new PaginatedList<AuthorResponse>(
                     response,
@@ -72,7 +73,9 @@ namespace ELibrary.Endpoint
                     CurrentPage = authors.PageIndex,
                     PerPage = authors.PageSize,
                     Total = authors.TotalCount,
-                    TotalPage = authors.TotalPages
+                    TotalPage = authors.TotalPages,
+                    HasPreviousPage = authors.HasPreviousPage(),
+                    HasNextPage = authors.HasNextPage()
                 }
             });
         }
@@ -91,7 +94,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<AuthorResponse>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = response
             });
@@ -119,7 +122,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Created($"/api/authors/{author.Id}", new WebResponse<AuthorResponse>
                 {
-                    Code = 201,
+                    Code = HttpStatusCode.Created,
                     Status = "Created",
                     Data = response
                 });
@@ -156,7 +159,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Ok(new WebResponse<AuthorResponse>
                 {
-                    Code = 200,
+                    Code = HttpStatusCode.OK,
                     Status = "OK",
                     Data = response
                 });
@@ -181,7 +184,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<object>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = null
             });

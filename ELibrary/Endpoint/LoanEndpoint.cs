@@ -1,4 +1,5 @@
-﻿using ELibrary.Entities;
+﻿using System.Net;
+using ELibrary.Entities;
 using ELibrary.Models;
 using ELibrary.Repositories;
 using FluentValidation;
@@ -64,7 +65,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<PaginatedList<LoanResponse>>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = new PaginatedList<LoanResponse>(
                     response,
@@ -76,7 +77,9 @@ namespace ELibrary.Endpoint
                     CurrentPage = loans.PageIndex,
                     PerPage = loans.PageSize,
                     Total = loans.TotalCount,
-                    TotalPage = loans.TotalPages
+                    TotalPage = loans.TotalPages,
+                    HasPreviousPage = loans.HasPreviousPage(),
+                    HasNextPage = loans.HasNextPage()
                 }
             });
         }
@@ -95,7 +98,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<LoanResponse>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = response
             });
@@ -137,7 +140,7 @@ namespace ELibrary.Endpoint
 
                     return TypedResults.Created($"/api/loans/{loan.Id}", new WebResponse<LoanResponse>
                     {
-                        Code = 201,
+                        Code = HttpStatusCode.Created,
                         Status = "Created",
                         Data = response
                     });
@@ -192,7 +195,7 @@ namespace ELibrary.Endpoint
 
                     return TypedResults.Ok(new WebResponse<LoanResponse>
                     {
-                        Code = 200,
+                        Code = HttpStatusCode.OK,
                         Status = "OK",
                         Data = response
                     });
@@ -234,7 +237,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Ok(new WebResponse<object>
                 {
-                    Code = 200,
+                    Code = HttpStatusCode.OK,
                     Status = "OK",
                     Data = null
                 });

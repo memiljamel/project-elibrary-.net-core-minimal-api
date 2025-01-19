@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using ELibrary.Entities;
@@ -76,7 +77,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Created(string.Empty, new WebResponse<LoginResponse>
                 {
-                    Code = 201,
+                    Code = HttpStatusCode.Created,
                     Status = "Created",
                     Data = new LoginResponse
                     {
@@ -108,7 +109,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<StaffResponse>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = response
             });
@@ -170,7 +171,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Ok(new WebResponse<StaffResponse>
                 {
-                    Code = 200,
+                    Code = HttpStatusCode.OK,
                     Status = "OK",
                     Data = response
                 });

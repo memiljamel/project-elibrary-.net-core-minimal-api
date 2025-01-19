@@ -39,7 +39,9 @@ Response:
     "currentPage": "int",
     "perPage": "int",
     "total": "int",
-    "totalPage": "int"
+    "totalPage": "int",
+    "hasPreviousPage": "boolean",
+    "hasNextPage": "boolean"
   }
 }
 ```

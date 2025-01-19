@@ -1,4 +1,5 @@
-﻿using ELibrary.Entities;
+﻿using System.Net;
+using ELibrary.Entities;
 using ELibrary.Enums;
 using ELibrary.Models;
 using ELibrary.Repositories;
@@ -67,7 +68,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<PaginatedList<BookResponse>>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = new PaginatedList<BookResponse>(
                     response,
@@ -79,7 +80,9 @@ namespace ELibrary.Endpoint
                     CurrentPage = books.PageIndex,
                     PerPage = books.PageSize,
                     Total = books.TotalCount,
-                    TotalPage = books.TotalPages
+                    TotalPage = books.TotalPages,
+                    HasPreviousPage = books.HasPreviousPage(),
+                    HasNextPage = books.HasNextPage()
                 }
             });
         }
@@ -98,7 +101,7 @@ namespace ELibrary.Endpoint
 
             return TypedResults.Ok(new WebResponse<BookResponse>
             {
-                Code = 200,
+                Code = HttpStatusCode.OK,
                 Status = "OK",
                 Data = response
             });
@@ -127,8 +130,13 @@ namespace ELibrary.Endpoint
 
                     if (request.Image != null)
                     {
+                        if (!Directory.Exists("Uploads/Covers"))
+                        {
+                            Directory.CreateDirectory("Uploads/Covers");
+                        }
+            
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
-                        var filepath = Path.Combine($"Uploads/Images/{filename}");
+                        var filepath = Path.Combine("Uploads/Covers", filename);
 
                         await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
@@ -158,7 +166,7 @@ namespace ELibrary.Endpoint
 
                     return TypedResults.Created($"/api/books/{book.Id}", new WebResponse<BookResponse>
                     {
-                        Code = 201,
+                        Code = HttpStatusCode.Created,
                         Status = "Created",
                         Data = response
                     });
@@ -213,8 +221,13 @@ namespace ELibrary.Endpoint
                             File.Delete(book.ImageUrl);
                         }
 
+                        if (!Directory.Exists("Uploads/Covers"))
+                        {
+                            Directory.CreateDirectory("Uploads/Covers");
+                        }
+            
                         var filename = Path.GetRandomFileName() + Path.GetExtension(request.Image.FileName);
-                        var filepath = Path.Combine($"Uploads/Images/{filename}");
+                        var filepath = Path.Combine("Uploads/Covers", filename);
 
                         await using var stream = new FileStream(filepath, FileMode.Create);
                         await request.Image.CopyToAsync(stream);
@@ -242,7 +255,7 @@ namespace ELibrary.Endpoint
 
                     return TypedResults.Ok(new WebResponse<BookResponse>
                     {
-                        Code = 200,
+                        Code = HttpStatusCode.OK,
                         Status = "OK",
                         Data = response
                     });
@@ -288,7 +301,7 @@ namespace ELibrary.Endpoint
 
                 return TypedResults.Ok(new WebResponse<object>
                 {
-                    Code = 200,
+                    Code = HttpStatusCode.OK,
                     Status = "OK",
                     Data = null
                 });

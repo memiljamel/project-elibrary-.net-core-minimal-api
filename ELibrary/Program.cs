@@ -95,8 +95,8 @@ app.UseAuthorization();
 AccountEndpoint.Map(app);
 StaffEndpoint.Map(app);
 MemberEndpoint.Map(app);
-BookEndpoint.Map(app);
 AuthorEndpoint.Map(app);
+BookEndpoint.Map(app);
 LoanEndpoint.Map(app);
 
 app.Run();

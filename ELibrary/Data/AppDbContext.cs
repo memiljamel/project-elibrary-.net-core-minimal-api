@@ -1,7 +1,5 @@
 ﻿using ELibrary.Entities;
-using ELibrary.Enums;
 using Microsoft.EntityFrameworkCore;
-using BC = BCrypt.Net.BCrypt;
 
 namespace ELibrary.Data
 {
@@ -21,18 +19,7 @@ namespace ELibrary.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-
-            var staff = new Staff
-            {
-                Username = "administrator",
-                Password = BC.HashPassword("password"),
-                Name = "Administrator",
-                StaffNumber = "STF-0000",
-                AccessLevel = AccessLevelEnum.Administrator
-            };
-
-            modelBuilder.Entity<Staff>().HasData(staff);
+            modelBuilder.ApplyConfiguration(new StaffConfiguration());
         }
     }
 }
